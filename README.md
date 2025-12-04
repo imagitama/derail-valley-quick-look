@@ -1,6 +1,8 @@
 # Derail Valley Quick Look Mod
 
-A mod for the game [Derail Valley](https://store.steampowered.com/app/588030/Derail_Valley/) that adds keybindings for "quick looking" down 45 degrees so you can see your train controls:
+A mod for the game [Derail Valley](https://store.steampowered.com/app/588030/Derail_Valley/) that adds keybindings for "quick looking" down 45 degrees so you can see your train controls.
+
+NexusMods: https://www.nexusmods.com/derailvalley/mods/1371
 
 ## Install
 
