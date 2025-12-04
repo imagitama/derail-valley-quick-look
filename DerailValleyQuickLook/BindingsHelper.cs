@@ -24,15 +24,18 @@ public struct BindingInfo
 
 public static class BindingsHelper
 {
-    public static bool IsReady => ReInput.isReady;
+    public static bool IsReady => ReInput.isReady && InputManager.NewPlayer != null;
 
     public static int GetButtonId(ControllerType controllerType, int controllerId, string buttonName)
     {
         var player = InputManager.NewPlayer;
+        if (player == null)
+            return -1;
+
         Controller controller = player.controllers.GetController(controllerType, controllerId);
 
         // TODO: cache this
-        var result = controller.ButtonElementIdentifiers.ToList().Find(x => x.name == buttonName);
+        var result = controller?.ButtonElementIdentifiers.ToList().Find(x => x.name == buttonName);
 
         if (result == null)
             return -1;
@@ -43,27 +46,36 @@ public static class BindingsHelper
     public static bool GetIsPressed(ControllerType controllerType, int controllerId, int buttonId)
     {
         var player = InputManager.NewPlayer;
+        if (player == null)
+            return false;
+
         Controller controller = player.controllers.GetController(controllerType, controllerId);
 
-        var pressed = controller.GetButtonById(buttonId);
-        return pressed;
+        var pressed = controller?.GetButtonById(buttonId);
+        return pressed == true;
     }
 
     public static bool GetIsPressed(ControllerType controllerType, int controllerId, string buttonName)
     {
         var player = InputManager.NewPlayer;
+        if (player == null)
+            return false;
 
         // TODO: cache this
         Controller controller = player.controllers.GetController(controllerType, controllerId);
 
         var buttonId = GetButtonId(controllerType, controllerId, buttonName);
 
-        var pressed = controller.GetButtonById(buttonId);
-        return pressed;
+        var pressed = controller?.GetButtonById(buttonId);
+        return pressed == true;
     }
 
     public static bool GetIsPressed(int actionId)
     {
+        var player = InputManager.NewPlayer;
+        if (player == null)
+            return false;
+
         var bindings = Main.settings.Bindings;
 
         // TODO: more performant way of doing this
@@ -71,14 +83,12 @@ public static class BindingsHelper
 
         foreach (var binding in bindingsForAction)
         {
-            var player = InputManager.NewPlayer;
-
             // TODO: cache this
             Controller controller = player.controllers.GetController(binding.ControllerType, binding.ControllerId);
 
-            var pressed = controller.GetButtonById(binding.ButtonId);
+            var pressed = controller?.GetButtonById(binding.ButtonId);
 
-            if (pressed)
+            if (pressed == true)
                 return true;
         }
 
@@ -95,10 +105,13 @@ public static class BindingsHelper
         return (controllerPollingInfo.elementIdentifierName, controllerPollingInfo.elementIdentifierId);
     }
 
-    public static string GetControllerNameFromType(ControllerType controllerType)
+    public static string? GetControllerNameFromType(ControllerType controllerType)
     {
-        return InputManager.NewPlayer.controllers.Controllers.ToList().Find(x => x.type == controllerType).name;
+        var player = InputManager.NewPlayer;
+        if (player == null)
+            return null;
+        return player.controllers.Controllers.ToList().Find(x => x.type == controllerType).name;
     }
 
-    public static List<Controller> GetAllControllers() => InputManager.NewPlayer.controllers.Controllers.ToList();
+    public static List<Controller>? GetAllControllers() => InputManager.NewPlayer?.controllers.Controllers.ToList();
 }

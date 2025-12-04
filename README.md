@@ -10,9 +10,11 @@ Download the zip and use Unity Mod Manager to install it.
 
 ## Usage
 
-Open the mod settings and add a binding for your device. Then press it in-game to have your camera move.
+Open the mod settings and add a binding for your device:
 
 ![](./settings.png)
+
+Press the button and (if you aren't looking near the floor) it will aim you down. Then press it again to look up.
 
 ## Ideas
 

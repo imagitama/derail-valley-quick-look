@@ -1,6 +1,6 @@
 {
 	"Id": "DerailValleyQuickLook",
-	"Version": "1.0.0",
+	"Version": "1.0.1",
 	"DisplayName": "QuickLook",
 	"Author": "Jared Williams",
 	"EntryMethod": "DerailValleyQuickLook.Main.Load",

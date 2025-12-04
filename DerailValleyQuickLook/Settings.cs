@@ -12,6 +12,7 @@ public class Settings : UnityModManager.ModSettings, IDrawable
     private static UnityModManager.ModEntry.ModLogger Logger => Main.ModEntry.Logger;
 
     public float RotationAmount = 45f;
+    public float MinRotationForDownOffset = 10f;
     public float Speed = 10f;
     public List<BindingInfo> Bindings = new List<BindingInfo>();
 
@@ -26,8 +27,14 @@ public class Settings : UnityModManager.ModSettings, IDrawable
 
     public void Draw()
     {
-        UnityModManager.UI.DrawFloatField(ref RotationAmount, "Rotation amount (degrees)");
+        UnityModManager.UI.DrawFloatField(ref RotationAmount, "Rotation amount (degrees, default 45)");
+        UnityModManager.UI.DrawFloatField(ref MinRotationForDownOffset, $"When looking up it checks you are looking {RotationAmount} degrees down minus this offset (degrees, default 10)");
         UnityModManager.UI.DrawFloatField(ref Speed, "Speed (higher faster, default 10)");
+
+        var controllers = BindingsHelper.GetAllControllers();
+
+        if (controllers == null)
+            return;
 
         for (var i = 0; i < Bindings.Count; i++)
         {
@@ -40,7 +47,7 @@ public class Settings : UnityModManager.ModSettings, IDrawable
             string? newControllerName = binding.ControllerName;
             int newControllerId = binding.ControllerId;
 
-            foreach (var controller in BindingsHelper.GetAllControllers())
+            foreach (var controller in controllers)
             {
                 // TODO: why is controller ID always 0
                 var isNowChecked = GUILayout.Toggle(binding.ControllerName == controller.name, controller.name);
@@ -126,7 +133,7 @@ public class Settings : UnityModManager.ModSettings, IDrawable
                     ActionId = Actions.QuickLookDown,
                     ControllerId = 0,
                     ControllerType = ControllerType.Keyboard,
-                    ControllerName = BindingsHelper.GetControllerNameFromType(ControllerType.Keyboard),
+                    ControllerName = BindingsHelper.GetControllerNameFromType(ControllerType.Keyboard) ?? "",
                     ButtonName = "Space",
                     ButtonId = BindingsHelper.GetButtonId(ControllerType.Keyboard, 0, "Space")
                 }

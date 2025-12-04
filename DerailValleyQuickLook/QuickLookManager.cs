@@ -25,7 +25,7 @@ public class QuickLookManager
 
         if (_isPressed && !_wasPressed)
         {
-            if (cameraManager.isQuickLookingDown)
+            if (cameraManager.GetIsLookingDown())
                 cameraManager.StopQuickLookDown();
             else
                 cameraManager.QuickLookDown();
@@ -35,9 +35,10 @@ public class QuickLookManager
 
         if (cameraManager.TargetRotation.HasValue)
         {
-            if (InputManager.GetMouseAxisInput().magnitude > 0.2f)
+            var magnitude = InputManager.GetMouseAxisInput().magnitude;
+            if (magnitude > 0.5f)
             {
-                Logger.Log("User has moved mouse");
+                Logger.Log($"User has moved mouse: {magnitude}");
                 cameraManager.Reset();
                 return;
             }
