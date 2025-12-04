@@ -1,0 +1,9 @@
+{
+	"Id": "DerailValleyQuickLook",
+	"Version": "1.0.0",
+	"DisplayName": "QuickLook",
+	"Author": "Jared Williams",
+	"EntryMethod": "DerailValleyQuickLook.Main.Load",
+	"ManagerVersion": "0.32.4",
+	"Repository": "https://raw.githubusercontent.com/imagitama/derail-valley-quick-look/main/repository.json"
+}
